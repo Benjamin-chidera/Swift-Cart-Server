@@ -98,22 +98,42 @@ export const createProduct = asyncHandler(async (req, res) => {
 });
 
 export const getProduct = asyncHandler(async (req, res) => {
-  const product = await Products.find();
-  console.log(typeof product);
+  const product = await Products.find().sort("-createdAt");
+  
   res
     .status(200)
-    .json({ numOdProduct: product.length, success: true, product });
+    .json({ numOfProduct: product.length, success: true, product });
 });
 
 export const getAProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
-  const product = await Products.findById({ _id: productId });
 
-  const productType = product.category;
+  try {
+    const product = await Products.findById(productId).populate({
+      path: "comment",
+      populate: {
+        path: "author",
+        select: "name image",
+      },
+    });
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Product not found" });
+    }
 
-  const similarProduct = await Products.find({ productType }).limit(13);
+    const productType = product.category;
 
-  res.status(200).json({ success: true, product, similarProduct });
+    const similarProduct = await Products.find({
+      category: productType,
+      _id: { $ne: productId }, // Exclude the current product from similar results
+    }).limit(13);
+
+    res.status(200).json({ success: true, product, similarProduct });
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    res.status(500).json({ success: false, error: "Failed to fetch product" });
+  }
 });
 
 export const deleteAProduct = asyncHandler(async (req, res) => {

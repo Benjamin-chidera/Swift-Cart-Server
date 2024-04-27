@@ -7,6 +7,8 @@ import fileupload from "express-fileupload";
 import { errorHandler } from "./middleware/errorHandler.js";
 import userRouter from "../server/routers/userRouter.js";
 import productRouter from "../server/routers/productRoute.js";
+import paystackRouter from "../server/routers/paystackRouter.js";
+import reviewRouter from "../server/routers/reviewsRouter.js";
 
 dotenv.config();
 const app = express();
@@ -34,6 +36,8 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth/", userRouter);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/payStack", paystackRouter);
+app.use("/api/v1/reviews", reviewRouter);
 
 app.use((req, res) => {
   res.status(404).json({ errMsg: "page not found" });

@@ -23,7 +23,7 @@ router
   .route("/:productId")
   .get(getAProduct)
   .delete(auth, permission("admin"), deleteAProduct)
-  .patch(auth, permission("admin"), updateProduct);
+  .patch(updateProduct);
 
 router.get("/category/:category", getByCategory);
 router.get("/category/:category/tags/:tags", getByCategoryAndTags);

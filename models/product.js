@@ -91,6 +91,13 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Reviews",       
+      },
+    ],
   },
   { timestamps: true }
 );
