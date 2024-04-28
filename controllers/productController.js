@@ -99,7 +99,7 @@ export const createProduct = asyncHandler(async (req, res) => {
 
 export const getProduct = asyncHandler(async (req, res) => {
   const product = await Products.find().sort("-createdAt");
-  
+
   res
     .status(200)
     .json({ numOfProduct: product.length, success: true, product });
@@ -110,7 +110,7 @@ export const getAProduct = asyncHandler(async (req, res) => {
 
   try {
     const product = await Products.findById(productId).populate({
-      path: "comment",
+      path: "comments",
       populate: {
         path: "author",
         select: "name image",

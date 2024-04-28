@@ -21,7 +21,7 @@ export const createReview = asyncHandler(async (req, res) => {
   }
 
   const product = await Products.findById(productId);
-// console.log(product);
+  // console.log(product);
   if (!product) {
     return res.status(404).json({ error: "Blog post not found" });
   }
@@ -44,13 +44,17 @@ export const createReview = asyncHandler(async (req, res) => {
 
 export const getReview = asyncHandler(async (req, res) => {
   //   const { productId } = req.params;
-  const review = await Reviews.find().populate({
-    // path: "author",
-    // populate: {
-    path: "author",
-    select: "name image",
-    // },
-  });
+  const review = await Reviews.find().populate([
+    {
+      path: "author",
+      select: "name image",
+    },
+
+   {
+      path: "product",
+      select: "name image"
+    },
+  ]);
 
   if (!review) {
     return res.status(404).json({ error: "Review post not found" });
