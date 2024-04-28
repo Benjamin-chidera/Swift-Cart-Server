@@ -5,10 +5,10 @@ import cors from "cors";
 import { v2 as cloudinary } from "cloudinary";
 import fileupload from "express-fileupload";
 import { errorHandler } from "./middleware/errorHandler.js";
-import userRouter from "../server/routers/userRouter.js";
-import productRouter from "../server/routers/productRoute.js";
-import paystackRouter from "../server/routers/paystackRouter.js";
-import reviewRouter from "../server/routers/reviewsRouter.js";
+import userRouter from "./routers/userRouter.js";
+import productRouter from "./routers/productRoute.js";
+import paystackRouter from "./routers/paystackRouter.js";
+import reviewRouter from "./routers/reviewsRouter.js";
 
 dotenv.config();
 const app = express();
