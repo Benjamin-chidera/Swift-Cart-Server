@@ -8,6 +8,7 @@ export const paystack = asyncHandler(async (req, res) => {
   const params = JSON.stringify({
     email: email,
     amount: price * 100,
+    currency: "NGN",
   });
 
   const options = {
@@ -24,18 +25,27 @@ export const paystack = asyncHandler(async (req, res) => {
   const reqPayStack = https
     .request(options, (resPayStack) => {
       let data = "";
+      console.log(data);
 
       resPayStack.on("data", (chunk) => {
         data += chunk;
       });
 
       resPayStack.on("end", () => {
-        res.send(data);
-        console.log(JSON.parse(data));
+        const responseData = JSON.parse(data);
+        if (responseData.status === true) {
+          // Payment initiated successfully
+          res.json(responseData);
+          console.log(responseData);
+        } else {
+          // Payment initiation failed
+          res.status(400).json({ error: "Payment initiation failed" });
+        }
       });
     })
     .on("error", (error) => {
       console.error(error);
+      // console.log(error);
     });
 
   reqPayStack.write(params);
@@ -66,6 +76,7 @@ export const getPayment = asyncHandler(async (req, res) => {
       const paymentDetails = JSON.parse(data);
       res.json(paymentDetails); // Send the payment details back to the client
       console.log(paymentDetails); // Log the payment details
+      res.redirect("http://localhost:5173/");
     });
   });
 
@@ -75,4 +86,38 @@ export const getPayment = asyncHandler(async (req, res) => {
   });
 
   request.end();
+});
+
+export const verifyPaymentDetails = asyncHandler(async (req, res) => {
+  const { verifyId } = req.params();
+
+   if (!verifyId) {
+     return res.status(400).json({ message: "Missing verify ID" }); // Handle missing verifyId
+   }
+
+  const options = {
+    hostname: "api.paystack.co",
+    port: 443,
+    path: `/transaction/verify/${verifyId}`,
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + process.env.PAYSTACK_PAYMENT,
+    },
+  };
+
+  https
+    .request(options, (res) => {
+      let data = "";
+
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      res.on("end", () => {
+        console.log(JSON.parse(data));
+      });
+    })
+    .on("error", (error) => {
+      console.error(error);
+    });
 });

@@ -273,3 +273,22 @@ export const getByCategoryAndTags = asyncHandler(async (req, res) => {
 
   res.status(200).json({ success: true, product });
 });
+
+export const getSearch = asyncHandler(async (req, res) => {
+  const { name } = req.query;
+
+  let queryObj = {};
+
+  if (name) {
+    queryObj.name = { $regex: name, $options: "i" };
+  }
+
+  const search = await Products.find(queryObj);
+
+   if (search.length < 1) {
+     res.status(404).json({ msg: `There are no results for "${name}" ` });
+   }
+
+
+  res.status(200).json({ success: true, search });
+});

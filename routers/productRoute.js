@@ -9,22 +9,24 @@ import {
   getByCategoryAndGender,
   getRecentProduct,
   getByCategoryAndTags,
+  getSearch,
 } from "../controllers/productController.js";
 import { auth, permission } from "../middleware/auth.js";
 
 const router = Router();
 
 router
-  .route("/")
-  .post(auth, permission("admin"), createProduct)
-  .get(getProduct);
+.route("/")
+.post(auth, permission("admin"), createProduct)
+.get(getProduct);
 router.get("/recent/:gender", getRecentProduct);
 router
-  .route("/:productId")
-  .get(getAProduct)
+.route("/:productId")
+.get(getAProduct)
   .delete(auth, permission("admin"), deleteAProduct)
   .patch(updateProduct);
-
+  
+  router.get("/q/productName", getSearch);
 router.get("/category/:category", getByCategory);
 router.get("/category/:category/tags/:tags", getByCategoryAndTags);
 router.get("/category/:category/gender/:gender", getByCategoryAndGender);
