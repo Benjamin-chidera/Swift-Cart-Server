@@ -39,7 +39,7 @@ const productSchema = new Schema(
         "sunprotection",
         "makeup",
         "men",
-        "womenMen",
+        "women",
         "scentfree",
         "toothpaste",
       ],
