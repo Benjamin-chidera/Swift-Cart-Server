@@ -40,12 +40,19 @@ export const register = asyncHandler(async (req, res) => {
   });
 
   const token = jwt.sign(
-    { userId: registerUser._id, name: registerUser.name, image: registerUser.image, role: registerUser.role },
+    {
+      userId: registerUser._id,
+      name: registerUser.name,
+      image: registerUser.image,
+      role: registerUser.role,
+    },
     process.env.TOKEN,
     {
       expiresIn: "30d",
     }
   );
+
+  res.cookie("userToken", token, { maxAge: 3600000, httpOnly: true });
 
   res.status(201).json({
     success: true,
@@ -93,6 +100,12 @@ export const login = asyncHandler(async (req, res) => {
       token,
     },
   });
+});
+
+export const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("userToken");
+
+  res.send("User logged out successfully");
 });
 
 export const getUser = asyncHandler(async (req, res) => {
