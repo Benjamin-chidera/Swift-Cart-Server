@@ -16,7 +16,7 @@ export const auth = (req, res, next) => {
       name: payload.name,
       image: payload.image,
       role: payload.role,
-      token: payload.token
+      token: payload.token,
     };
 
     next();
