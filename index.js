@@ -10,6 +10,7 @@ import userRouter from "./routers/userRouter.js";
 import productRouter from "./routers/productRoute.js";
 import paystackRouter from "./routers/paystackRouter.js";
 import reviewRouter from "./routers/reviewsRouter.js";
+import orderRouter from "./routers/orderRouter.js"
 
 dotenv.config();
 const app = express();
@@ -40,6 +41,7 @@ app.use("/api/v1/auth/", userRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/payStack", paystackRouter);
 app.use("/api/v1/reviews", reviewRouter);
+app.use("/api/v1/orders", orderRouter);
 
 app.use((req, res) => {
   res.status(404).json({ errMsg: "page not found" });
