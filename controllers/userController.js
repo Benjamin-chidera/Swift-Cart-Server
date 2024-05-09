@@ -45,6 +45,7 @@ export const register = asyncHandler(async (req, res) => {
       name: registerUser.name,
       image: registerUser.image,
       role: registerUser.role,
+      email: user.email,
     },
     process.env.TOKEN,
     {
@@ -83,7 +84,7 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   const token = jwt.sign(
-    { userId: user._id, name: user.name, image: user.image, role: user.role },
+    { userId: user._id, name: user.name, image: user.image, role: user.role, email: user.email },
     process.env.TOKEN,
     {
       expiresIn: "30d",

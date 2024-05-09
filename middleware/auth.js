@@ -10,6 +10,7 @@ export const auth = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
     const payload = jwt.verify(token, process.env.TOKEN);
+    console.log(token,  "tokens", payload, "payload");
 
     req.user = {
       userId: payload.userId,
