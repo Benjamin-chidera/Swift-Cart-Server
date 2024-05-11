@@ -26,7 +26,7 @@ const orderSchema = new Schema(
           _v: { type: Number },
         },
       ],
-      required: true,
+      // required: true,
     },
 
     shippingAddress: {
@@ -37,19 +37,19 @@ const orderSchema = new Schema(
         phone: { type: String },
         price: { type: String },
       },
-      required: true,
+      // required: true,
     },
 
     user: {
       type: String,
-      required: true,
+      // required: true,
     },
 
     totalPrice: {
       type: Number,
-      required: true,
+      // required: true,
     },
-    status: {
+    OrderStatus: {
       type: String,
       enum: ["Processing", "In progress", "Delivered"],
       default: "Processing",
