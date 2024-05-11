@@ -55,6 +55,10 @@ const orderSchema = new Schema(
       default: "Processing",
     },
 
+    deliveryDate: {
+      type: Date,
+    },
+
     paymentInfo: {
       id: {
         type: String,

@@ -3,8 +3,15 @@ import Products from "../models/product.js";
 import asyncHandler from "express-async-handler";
 
 export const createOrder = asyncHandler(async (req, res) => {
-  const { cart, shippingAddress, user, totalPrice, paymentInfo, OrderStatus } =
-    req.body;
+  const {
+    cart,
+    shippingAddress,
+    user,
+    totalPrice,
+    paymentInfo,
+    OrderStatus,
+    deliveryDate,
+  } = req.body;
 
   // if (!cart || !shippingAddress || !user || !totalPrice) {
   //   return res.status(400).json({
@@ -22,6 +29,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     totalPrice,
     paymentInfo,
     OrderStatus,
+    deliveryDate,
   });
 
   const saveOrder = await newOrder.save();
@@ -34,48 +42,60 @@ export const createOrder = asyncHandler(async (req, res) => {
 export const getOrders = asyncHandler(async (req, res) => {
   const order = await Order.find().sort("-createdAt");
 
-  res
-    .status(200)
-    .json({
-      success: true,
-      message: "Your Orders",
-      numOfOrders: order.length,
-      order,
-    });
+  res.status(200).json({
+    success: true,
+    message: "Your Orders",
+    numOfOrders: order.length,
+    order,
+  });
 });
 
 export const updateStatus = asyncHandler(async (req, res) => {
-  const { OrderStatus } = req.body;
   const { orderId } = req.params;
+  const { OrderStatus, deliveryDate } = req.body;
 
-  try {
-    const order = await Order.findByIdAndUpdate(
-      orderId,
-      { OrderStatus },
-      {
-        new: true, // Return the updated document
-        runValidators: true, // Run validators for update
-      }
-    );
+  if (!orderId) {
+    throw new Error(" orderId is required");
+  }
 
-    if (!order) {
-      return res.status(404).json({
-        success: false,
-        message: "Order not found",
-      });
-    }
+  let updatedStatus = {};
 
-    res.status(200).json({
-      success: true,
-      message: "Order status updated successfully",
-      order,
-    });
-  } catch (error) {
-    console.error("Error updating order status:", error);
-    res.status(500).json({
+  if (OrderStatus) updatedStatus.OrderStatus = OrderStatus;
+  if (deliveryDate) updatedStatus.deliveryDate = deliveryDate;
+
+  const order = await Order.findByIdAndUpdate(orderId, updatedStatus, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!order) {
+    return res.status(404).json({
       success: false,
-      message: "Error updating order status",
-      error: error.message,
+      message: "Order not found",
     });
   }
+
+  res.status(200).json({
+    success: true,
+    message: "Order status updated successfully",
+    order,
+  });
+});
+
+export const getSingleOrder = asyncHandler(async (req, res) => {
+  const { orderId } = req.params;
+
+  if (!orderId) {
+    return res.status(404).json({
+      success: false,
+      message: "Single Order not found",
+    });
+  }
+
+  const order = await Order.findById({ _id: orderId });
+  res.status(200).json({
+    success: true,
+    message: "Single Order found",
+    order,
+  });
 });
