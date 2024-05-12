@@ -12,6 +12,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     OrderStatus,
     deliveryDate,
   } = req.body;
+  const { userId } = req.user;
 
   // if (!cart || !shippingAddress || !user || !totalPrice) {
   //   return res.status(400).json({
@@ -20,12 +21,11 @@ export const createOrder = asyncHandler(async (req, res) => {
   //       "Missing required fields. Please provide all details for the order.",
   //   });
   // }
-  console.log(req.body);
 
   const newOrder = new Order({
     cart,
     shippingAddress,
-    user,
+    user: userId,
     totalPrice,
     paymentInfo,
     OrderStatus,
@@ -40,7 +40,10 @@ export const createOrder = asyncHandler(async (req, res) => {
 });
 
 export const getOrders = asyncHandler(async (req, res) => {
-  const order = await Order.find().sort("-createdAt");
+  const order = await Order.find().sort("-createdAt").populate({
+    path: "user",
+    select: "-password"
+  });
 
   res.status(200).json({
     success: true,

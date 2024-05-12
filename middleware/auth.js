@@ -10,7 +10,6 @@ export const auth = (req, res, next) => {
 
     const token = authHeader.split(" ")[1];
     const payload = jwt.verify(token, process.env.TOKEN);
-    console.log(token,  "tokens", payload, "payload");
 
     req.user = {
       userId: payload.userId,
@@ -22,8 +21,8 @@ export const auth = (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
-    res.status(404).json({ msg: "Error Verification" });
+    console.log("JWT Error:", error.message);
+    res.status(401).json({ error: "Unauthorized" }); 
   }
 };
 

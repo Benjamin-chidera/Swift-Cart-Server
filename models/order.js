@@ -41,8 +41,10 @@ const orderSchema = new Schema(
     },
 
     user: {
-      type: String,
-      // required: true,
+      // type: String,
+      type: mongoose.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
 
     totalPrice: {
