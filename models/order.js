@@ -26,7 +26,7 @@ const orderSchema = new Schema(
           _v: { type: Number },
         },
       ],
-      // required: true,
+      required: true,
     },
 
     shippingAddress: {
@@ -37,7 +37,7 @@ const orderSchema = new Schema(
         phone: { type: String },
         price: { type: String },
       },
-      // required: true,
+      required: true,
     },
 
     user: {
@@ -49,7 +49,7 @@ const orderSchema = new Schema(
 
     totalPrice: {
       type: Number,
-      // required: true,
+      required: true,
     },
     OrderStatus: {
       type: String,

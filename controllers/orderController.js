@@ -6,13 +6,14 @@ export const createOrder = asyncHandler(async (req, res) => {
   const {
     cart,
     shippingAddress,
-    user,
+    // user,
     totalPrice,
-    paymentInfo,
-    OrderStatus,
-    deliveryDate,
+    // paymentInfo,
+    // OrderStatus,
+    // deliveryDate,
   } = req.body;
   const { userId } = req.user;
+  console.log(req.body);
 
   // if (!cart || !shippingAddress || !user || !totalPrice) {
   //   return res.status(400).json({
@@ -56,6 +57,7 @@ export const getOrders = asyncHandler(async (req, res) => {
 export const updateStatus = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { OrderStatus, deliveryDate } = req.body;
+  // console.log(req.body);
 
   if (!orderId) {
     throw new Error(" orderId is required");
