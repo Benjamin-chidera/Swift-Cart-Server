@@ -244,7 +244,7 @@ export const getByCategoryAndGender = asyncHandler(async (req, res) => {
 
   const product = await Products.find({ category: category, gender: gender });
 
-  if (product.length < 1) {
+  if (!product) {
     res.status(400).json({ msg: "product not found" });
   }
 
@@ -285,10 +285,9 @@ export const getSearch = asyncHandler(async (req, res) => {
 
   const search = await Products.find(queryObj);
 
-   if (search.length < 1) {
-     res.status(404).json({ msg: `There are no results for "${name}" ` });
-   }
-
+  if (search.length < 1) {
+    res.status(404).json({ msg: `There are no results for "${name}" ` });
+  }
 
   res.status(200).json({ success: true, search });
 });
