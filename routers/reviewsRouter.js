@@ -12,6 +12,6 @@ const router = Router();
 // router.route("/").post(auth, createReview).get(auth, getReview);
 router.post("/:productId/reviews", auth, createReview);
 router.get("/:productId", getReviewsForProducts);
-router.get("/", auth, getReview);
+router.get("/", getReview);
 
 export default router;
