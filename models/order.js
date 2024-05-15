@@ -61,24 +61,24 @@ const orderSchema = new Schema(
       type: Date,
     },
 
-    paymentInfo: {
-      id: {
-        type: String,
-      },
-      status: {
-        type: String,
-      },
-      type: {
-        type: String,
-      },
-      paidAt: {
-        type: Date,
-        default: Date.now(),
-      },
-      deliveredAt: {
-        type: Date,
-      },
-    },
+    // paymentInfo: {
+    //   id: {
+    //     type: String,
+    //   },
+    //   status: {
+    //     type: String,
+    //   },
+    //   type: {
+    //     type: String,
+    //   },
+    //   paidAt: {
+    //     type: Date,
+    //     default: Date.now(),
+    //   },
+    //   deliveredAt: {
+    //     type: Date,
+    //   },
+    // },
   },
   { timestamps: true }
 );

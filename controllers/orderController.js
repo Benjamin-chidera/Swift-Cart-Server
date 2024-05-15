@@ -9,11 +9,10 @@ export const createOrder = asyncHandler(async (req, res) => {
     // user,
     totalPrice,
     // paymentInfo,
-    // OrderStatus,
-    // deliveryDate,
+    OrderStatus,
+    deliveryDate,
   } = req.body;
   const { userId } = req.user;
-  console.log(req.body);
 
   // if (!cart || !shippingAddress || !user || !totalPrice) {
   //   return res.status(400).json({
@@ -28,7 +27,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     shippingAddress,
     user: userId,
     totalPrice,
-    paymentInfo,
+    // paymentInfo,
     OrderStatus,
     deliveryDate,
   });
@@ -43,7 +42,7 @@ export const createOrder = asyncHandler(async (req, res) => {
 export const getOrders = asyncHandler(async (req, res) => {
   const order = await Order.find().sort("-createdAt").populate({
     path: "user",
-    select: "-password"
+    select: "-password",
   });
 
   res.status(200).json({
