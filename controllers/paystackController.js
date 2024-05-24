@@ -36,11 +36,9 @@ export const paystack = asyncHandler(async (req, res) => {
           // Payment initiated successfully
           res.json(responseData);
           console.log(responseData);
-          // res.redirect("http://localhost:5173/order");
         } else {
           // Payment initiation failed
           res.status(400).json({ error: "Payment initiation failed" });
-          // res.redirect("http://localhost:5173/checkout");
         }
       });
     })
