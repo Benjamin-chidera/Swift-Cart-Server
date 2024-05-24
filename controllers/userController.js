@@ -138,9 +138,14 @@ export const forgottenPassword = asyncHandler(async (req, res) => {
     }
   );
 
-  const resetLink = `http://localhost:5173/reset-password/${token}`; //added in the frontend
+  // const resetLink = `https://swift-cart-one.vercel.app/reset-password/${token}`; //added in the frontend
+  // const subject = "Password Reset Request";
+  // const message = `To reset your password, click on the following link: ${resetLink}`;
+  const resetLink = `https://swift-cart-one.vercel.app/reset-password/${token}`; //added in the frontend
+
   const subject = "Password Reset Request";
-  const message = `To reset your password, click on the following link: ${resetLink}`;
+
+  const message = `To reset your password, please click on the following link: <a href="${resetLink}">${resetLink}</a>`;
   const send_to = email;
   const sent_from = process.env.EMAIL_USER; // Your email address
   const reply_to = email;
