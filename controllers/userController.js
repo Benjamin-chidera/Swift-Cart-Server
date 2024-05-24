@@ -9,9 +9,9 @@ import sendEmail from "../utils/sendEmail.js";
 export const register = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
 
-  // if (!name || !email || !password || !role) {
-  //   throw new Error("Please necessary Information");
-  // }
+  if (!name || !email || !password) {
+    throw new Error("Please necessary Information");
+  }
 
   const user = await User.findOne({ email });
 
@@ -45,7 +45,7 @@ export const register = asyncHandler(async (req, res) => {
       name: registerUser.name,
       image: registerUser.image,
       role: registerUser.role,
-      email: user.email,
+      email: registerUser.email,
     },
     process.env.TOKEN,
     {
@@ -53,7 +53,7 @@ export const register = asyncHandler(async (req, res) => {
     }
   );
 
-  res.cookie("userToken", token, { maxAge: 3600000, httpOnly: true });
+  // res.cookie("userToken", token, { maxAge: 3600000, httpOnly: true });
 
   res.status(201).json({
     success: true,
@@ -84,7 +84,13 @@ export const login = asyncHandler(async (req, res) => {
   }
 
   const token = jwt.sign(
-    { userId: user._id, name: user.name, image: user.image, role: user.role, email: user.email },
+    {
+      userId: user._id,
+      name: user.name,
+      image: user.image,
+      role: user.role,
+      email: user.email,
+    },
     process.env.TOKEN,
     {
       expiresIn: "30d",
